@@ -1,23 +1,27 @@
 from ConfigParser import ConfigParser
+import os
 
 
 def get_config_file(path):
     return open(path, 'r+')
 
 
-def get_config(path):
-    config_file = get_config_file(path)
+def get_config(path=None):
+    if path is None:
+        path = os.environ.get('HADOUKN_GIT_CONFIG')
+    if path is None:
+        if os.path.exists('.hadoukngitrc'):
+            path = '.hadoukngitrc'
+    if path is None:
+        raise ValueError('Cannot find a configuration file.')
 
     # parse the the user settings file, and form a dict from it
-    config = HadoukncliGitConfigParser()
-    config.readfp(config_file)
-
-    # close file
-    config_file.close()
+    config = HadouknGitConfigParser()
+    config.read(path)
     return config
 
 
-class HadoukncliGitConfigParser(ConfigParser):
+class HadouknGitConfigParser(ConfigParser):
     def get_dict(self):
         sections = self.sections()
 
