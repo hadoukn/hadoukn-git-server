@@ -1,9 +1,13 @@
 import sys
 
 from twisted.internet import reactor
+from twisted.python import components
+from twisted.conch.ssh.session import ISession
 
 from hadoukngit.server import SSHFactory
 from hadoukngit.config import get_config
+from hadoukngit.session import GitSession
+from hadoukngit.user import User
 
 
 def main(argv=sys.argv):
@@ -11,5 +15,6 @@ def main(argv=sys.argv):
     settings = config.get_dict()
 
     factory = SSHFactory(settings)
+    components.registerAdapter(GitSession, User, ISession)
     reactor.listenTCP(2022, factory)
     reactor.run()

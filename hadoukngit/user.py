@@ -1,8 +1,12 @@
 from twisted.conch.avatar import ConchUser
-
-from hadoukngit.session import Session
+from twisted.conch.ssh.session import SSHSession
 
 
 class User(ConchUser):
-    def __inti__(self):
-        self.channelLookup['session'] = Session
+    def __init__(self, username):
+        ConchUser.__init__(self)
+        self.username = username
+        self.channelLookup['session'] = SSHSession
+
+    def logout(self):
+        pass

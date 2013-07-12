@@ -1,5 +1,19 @@
-from twisted.conch.ssh.session import SSHSession
+from twisted.internet import reactor
+from twisted.conch.ssh import session
+from zope.interface import implementer
 
 
-class Session(SSHSession):
-    pass
+@implementer(session.ISession)
+class GitSession(object):
+    def __init__(self, user):
+        self.user = user
+
+    def execCommand(self, proto, cmd):
+        command = ('git-shell', '-c', cmd)
+        reactor.spawnProcess(proto, 'git-shell', command)
+
+    def eofReceived(self):
+        pass
+
+    def closed(self):
+        pass

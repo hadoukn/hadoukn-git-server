@@ -10,5 +10,5 @@ class Realm(object):
     def __init__(self, settings):
         self.settings = settings
 
-    def requestAvatar(self, avatarId, mind, *interfaces):
-        return IConchUser, User(), lambda: None
+    def requestAvatar(self, username, mind, *interfaces):
+        return IConchUser, User(username), lambda: None
