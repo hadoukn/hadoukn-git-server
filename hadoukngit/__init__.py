@@ -19,5 +19,5 @@ def main(argv=sys.argv):
     # adapting User to GitSession which implements ISession
     components.registerAdapter(GitSession, User, ISession)
 
-    reactor.listenTCP(2022, factory)
+    reactor.listenTCP(settings['hadoukngit']['post'], factory)
     reactor.run()
