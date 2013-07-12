@@ -59,3 +59,5 @@ env/
 ################
 ssh-passwords
 certs/
+
+.hadoukngitrc
