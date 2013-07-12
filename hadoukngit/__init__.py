@@ -15,6 +15,9 @@ def main(argv=sys.argv):
     settings = config.get_dict()
 
     factory = SSHFactory(settings)
+
+    # adapting User to GitSession which implements ISession
     components.registerAdapter(GitSession, User, ISession)
+
     reactor.listenTCP(2022, factory)
     reactor.run()
