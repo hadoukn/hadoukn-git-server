@@ -23,6 +23,7 @@ def main(argv=sys.argv[1:]):
             'lookup order will check for a HADOUKN_GIT_CONFIG environ '
             'variable, then fallback to .hadoukngitrc in the CWD.'
         ),
+        default='hadoukngit.ini'
     )
     args = parser.parse_args(args=argv)
 
@@ -40,5 +41,6 @@ def main(argv=sys.argv[1:]):
     # adapting User to GitSession which implements ISession
     components.registerAdapter(GitSession, User, ISession)
 
-    reactor.listenTCP(settings['hadoukngit']['post'], factory)
+    port = int(settings['hadoukngit']['port'])
+    reactor.listenTCP(port, factory)
     reactor.run()
