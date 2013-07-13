@@ -13,7 +13,7 @@ entry_points = """
 
 setup(name='hadoukngit',
       version='0.1',
-      description='hadoukngit',
+      description='hadoukn-git-server',
       long_description=README,
       packages=find_packages(),
       test_suite='hadoukngit.tests',
