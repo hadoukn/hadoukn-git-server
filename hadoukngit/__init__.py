@@ -2,6 +2,7 @@ from __future__ import print_function
 import argparse
 import os
 import sys
+import logging
 
 from twisted.internet import reactor
 from twisted.python import components
@@ -11,6 +12,9 @@ from hadoukngit.server import SSHFactory
 from hadoukngit.config import get_config
 from hadoukngit.session import GitSession
 from hadoukngit.user import User
+
+
+logger = logging.getLogger(__name__)
 
 
 def main(argv=sys.argv[1:]):
@@ -42,5 +46,8 @@ def main(argv=sys.argv[1:]):
     components.registerAdapter(GitSession, User, ISession)
 
     port = int(settings['hadoukngit']['port'])
+
+    # Run the server
+    logger.info('Serving on localhost:%s...' % port)
     reactor.listenTCP(port, factory)
     reactor.run()

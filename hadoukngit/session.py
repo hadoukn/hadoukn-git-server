@@ -49,18 +49,20 @@ class GitSession(object):
 
         if r.ok:
             # see if the repo already exists
-            home_directory = os.path.expanduser('~')
             git_template_path = self.settings['hadoukngit']['git_template_path']
-            ssh_key_path = os.path.join(home_directory, '.hadoukn', 'repositories', '%s.git' % app_name)
+            repo_path = os.path.join(os.path.expanduser('~'),
+                                     self.settings['hadoukngit']['hadoukngit_path'],
+                                     'repositories',
+                                     '%s.git' % app_name)
 
-            if not os.path.exists(ssh_key_path):
-                os.makedirs(ssh_key_path)
+            if not os.path.exists(repo_path):
+                os.makedirs(repo_path)
 
                 # initialize a git repo
-                command = ('git', 'init', '--bare', '--template=%s' % git_template_path, ssh_key_path)
+                command = ('git', 'init', '--bare', '--template=%s' % git_template_path, repo_path)
                 reactor.spawnProcess(proto, 'git', command)
 
-            command = ('git-shell', '-c', "%s '%s'" % (app_command, ssh_key_path))
+            command = ('git-shell', '-c', "%s '%s'" % (app_command, repo_path))
             reactor.spawnProcess(proto, 'git-shell', command)
         else:
             error = r.json()

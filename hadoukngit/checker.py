@@ -31,13 +31,12 @@ class Checker(SSHPublicKeyDatabase):
         key_type, key_key = key_to_parts(key.toString('OPENSSH'))
 
         payload = {
-            'key_type': key_type,
             'key_key': key_key
         }
         params = {
             'api_key': self.settings['hadoukngit']['api_key']
         }
-        url = '%s/users' % self.settings['hadoukngit']['api_url']
+        url = '%s/users/key' % self.settings['hadoukngit']['api_url']
 
         r = requests.get(url,
                          data=json.dumps(payload),
